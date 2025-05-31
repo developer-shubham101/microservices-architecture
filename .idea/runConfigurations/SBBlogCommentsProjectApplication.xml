@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="SBBlogCommentsProjectApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="com.example.sbblogcomment.SBBlogCommentsProjectApplication" />
+    <module name="sb-blog-comments" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="com.example.sbblogcomment.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
