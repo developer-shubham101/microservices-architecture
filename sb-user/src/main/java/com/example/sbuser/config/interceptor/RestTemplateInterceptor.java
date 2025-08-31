@@ -8,6 +8,7 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 
 public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
@@ -23,18 +24,26 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
   @Override
   public ClientHttpResponse intercept(
       HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-    String token =
-        manager
-            .authorize(
-                OAuth2AuthorizeRequest.withClientRegistrationId("my-internal-client")
-                    .principal("internal")
-                    .build())
-            .getAccessToken()
-            .getTokenValue();
+    try {
+      OAuth2AuthorizedClient authorizedClient =
+          manager.authorize(
+              OAuth2AuthorizeRequest.withClientRegistrationId("my-internal-client")
+                  .principal("internal")
+                  .build());
 
-    logger.info("Rest Template interceptor: Token :  {} ", token);
+      if (authorizedClient == null || authorizedClient.getAccessToken() == null) {
+        logger.warn(
+            "Rest Template interceptor: no access token available for client 'my-internal-client' - skipping Authorization header");
+        return execution.execute(request, body);
+      }
 
-    request.getHeaders().add("Authorization", "Bearer " + token);
+      String token = authorizedClient.getAccessToken().getTokenValue();
+      logger.debug("Rest Template interceptor: Token : {}", token);
+      request.getHeaders().add("Authorization", "Bearer " + token);
+    } catch (Exception ex) {
+      logger.error("Rest Template interceptor: failed to obtain access token - proceeding without Authorization header", ex);
+    }
+
     return execution.execute(request, body);
   }
 }

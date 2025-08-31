@@ -5,6 +5,22 @@ spring:
   application:
     name: api-gateway
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.1.2:8080/realms/blog-realm
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://192.168.1.2:8080/realms/blog-realm
+        registration:
+          gateway-client:
+            client-id: api-gateway
+            client-secret: Dxx73DDXGyS53WuTHZ45tC4Yxa2oPvN8
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+
   cloud:
     gateway:
       routes:
