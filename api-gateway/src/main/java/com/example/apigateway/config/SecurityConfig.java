@@ -10,6 +10,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
+
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
@@ -32,3 +33,4 @@ public class SecurityConfig {
     return username -> null; // Placeholder: Replace with your user lookup logic
   }
 }
+

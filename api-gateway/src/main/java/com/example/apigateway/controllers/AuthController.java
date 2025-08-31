@@ -25,7 +25,7 @@ public class AuthController {
 
   @GetMapping("/login")
   public ResponseEntity<Object> login(
-      @RegisteredOAuth2AuthorizedClient("okta") OAuth2AuthorizedClient client,
+  @RegisteredOAuth2AuthorizedClient("keycloak") OAuth2AuthorizedClient client,
       @AuthenticationPrincipal OidcUser user,
       Model model) {
 
