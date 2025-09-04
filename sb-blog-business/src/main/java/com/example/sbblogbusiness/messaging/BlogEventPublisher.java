@@ -19,4 +19,12 @@ public class BlogEventPublisher {
   public void publishBlogCreationFailed(BlogCreationFailedEvent event) {
     rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.FAILED_ROUTING_KEY, event);
   }
+
+  public void publishTestEvent(Object event) {
+    rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.TEST_ROUTING_KEY, event);
+  }
+
+  public void publishBlogDeleted(Object event) {
+    rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.DELETED_ROUTING_KEY, event);
+  }
 }

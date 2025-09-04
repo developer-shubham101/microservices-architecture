@@ -47,8 +47,16 @@ public class BlogUseCase {
     }
 
     public void deleteBlog(String blogId) {
-
+        // delete locally
         blogService.deleteBlog(blogId);
+
+        // publish deleted event for other services (choreography)
+        com.example.sbblogbusiness.events.BlogDeletedEvent deletedEvent =
+            new com.example.sbblogbusiness.events.BlogDeletedEvent();
+        deletedEvent.setEventId(java.util.UUID.randomUUID().toString());
+        deletedEvent.setOccurredAt(java.time.Instant.now());
+        deletedEvent.setBlogId(blogId);
+    blogEventPublisher.publishBlogDeleted(deletedEvent);
     }
 
     public CommentResponse createNewComment(String blogId, CommentRequest commentRequest) {
