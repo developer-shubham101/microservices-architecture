@@ -1,4 +1,4 @@
-package com.example.sbblogbusiness.config;
+package com.example.sbblogcomment.config;
 
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

@@ -4,8 +4,8 @@ import com.example.sbblogbusiness.entity.BlogEntity;
 import com.example.sbblogbusiness.events.TestPublishEvent;
 import com.example.sbblogbusiness.repository.BlogRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component

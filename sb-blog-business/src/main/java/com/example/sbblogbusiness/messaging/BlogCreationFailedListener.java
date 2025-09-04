@@ -13,14 +13,17 @@ public class BlogCreationFailedListener {
 
   @RabbitListener(queues = "sb-blog-business.blog-creation-failed.q")
   public void handle(BlogCreationFailedEvent event) {
-    blogRepository.findById(event.getBlogId()).ifPresent(blog -> {
-      // Prefer marking a status field instead of deleting; here we delete for simplicity
-      try {
-        blogRepository.deleteById(blog.getId());
-      } catch (Exception ex) {
-        // swallow or log; real implementation should log and alert
-        ex.printStackTrace();
-      }
-    });
+    blogRepository
+        .findById(event.getBlogId())
+        .ifPresent(
+            blog -> {
+              // Prefer marking a status field instead of deleting; here we delete for simplicity
+              try {
+                blogRepository.deleteById(blog.getId());
+              } catch (Exception ex) {
+                // swallow or log; real implementation should log and alert
+                ex.printStackTrace();
+              }
+            });
   }
 }

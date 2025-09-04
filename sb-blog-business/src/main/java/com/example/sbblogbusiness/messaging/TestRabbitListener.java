@@ -3,11 +3,10 @@ package com.example.sbblogbusiness.messaging;
 import com.example.sbblogbusiness.config.RabbitConfig;
 import com.example.sbblogbusiness.entity.BlogEntity;
 import com.example.sbblogbusiness.repository.BlogRepository;
+import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 @Component
 @RequiredArgsConstructor

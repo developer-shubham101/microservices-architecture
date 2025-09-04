@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 public class BlogV1Controller implements BlogsApi {
   private final BlogUseCase blogUseCase;
-  
+
   @Override
   public ResponseEntity<BlogRes> createNewBlog(BlogReq blogReq) {
     log.info("createNewBlog - payload={}", blogReq);
