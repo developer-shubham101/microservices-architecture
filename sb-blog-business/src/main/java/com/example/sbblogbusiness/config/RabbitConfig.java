@@ -34,7 +34,8 @@ public class RabbitConfig {
   }
 
   @Bean
-  public Binding bindingBlogCreationFailed(Queue blogCreationFailedQueue, TopicExchange blogExchange) {
+  public Binding bindingBlogCreationFailed(
+      Queue blogCreationFailedQueue, TopicExchange blogExchange) {
     return BindingBuilder.bind(blogCreationFailedQueue).to(blogExchange).with(FAILED_ROUTING_KEY);
   }
 

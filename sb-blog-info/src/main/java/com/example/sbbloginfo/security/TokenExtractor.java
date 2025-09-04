@@ -8,15 +8,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-/**
- * Utility to extract the incoming bearer token from the current request or security context.
- */
+/** Utility to extract the incoming bearer token from the current request or security context. */
 @Component
 public class TokenExtractor {
 
-  /**
-   * Return the bearer token (without the "Bearer " prefix) if present, otherwise null.
-   */
+  /** Return the bearer token (without the "Bearer " prefix) if present, otherwise null. */
   public String extractToken() {
     // Try HTTP request header first
     var attrs = RequestContextHolder.getRequestAttributes();

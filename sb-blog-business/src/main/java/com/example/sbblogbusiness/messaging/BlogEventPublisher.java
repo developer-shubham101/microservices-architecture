@@ -26,6 +26,6 @@ public class BlogEventPublisher {
   }
 
   public void publishBlogDeleted(BlogDeletedEvent event) {
-  rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.DELETED_ROUTING_KEY, event);
+    rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.DELETED_ROUTING_KEY, event);
   }
 }

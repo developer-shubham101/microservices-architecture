@@ -1,7 +1,7 @@
 package com.example.sbbloginfo.config.interceptor;
 
-import java.io.IOException;
 import jakarta.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
@@ -9,11 +9,11 @@ import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -68,7 +68,8 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
         logger.debug("Rest Template interceptor: attaching Authorization Bearer token");
         request.getHeaders().add("Authorization", "Bearer " + token);
       } else {
-        logger.warn("Rest Template interceptor: no token available - proceeding without Authorization header");
+        logger.warn(
+            "Rest Template interceptor: no token available - proceeding without Authorization header");
       }
     } catch (Exception ex) {
       logger.error(

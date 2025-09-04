@@ -1,11 +1,10 @@
 package com.example.sbblogcomment.event;
 
+import java.io.Serializable;
+import java.time.Instant;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
-import java.time.Instant;
 
 @Data
 @AllArgsConstructor
