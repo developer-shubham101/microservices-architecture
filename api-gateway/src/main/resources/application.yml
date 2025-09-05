@@ -17,7 +17,7 @@ spring:
         registration:
           gateway-client:
             client-id: api-gateway
-            client-secret: Dxx73DDXGyS53WuTHZ45tC4Yxa2oPvN8
+            client-secret: JyTulrs5s9dctI6J8s5hyBDdiYEKyzpL
             authorization-grant-type: authorization_code
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
 
