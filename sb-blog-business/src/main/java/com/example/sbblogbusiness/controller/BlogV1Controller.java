@@ -7,6 +7,7 @@ import com.example.sbblogbusiness.dto.CommentRequest;
 import com.example.sbblogbusiness.dto.CommentResponse;
 import com.example.sbblogbusiness.usecase.BlogUseCase;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,14 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @CrossOrigin(origins = "*")
 public class BlogV1Controller implements BlogsApi {
   private final BlogUseCase blogUseCase;
 
   @Override
   public ResponseEntity<BlogRes> createNewBlog(BlogReq blogReq) {
-    System.out.println("createNewBlog");
-    System.out.println(blogReq);
+    log.info("createNewBlog - payload={}", blogReq);
     BlogRes createdBlogEntity = blogUseCase.createBlog(blogReq);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdBlogEntity);
   }

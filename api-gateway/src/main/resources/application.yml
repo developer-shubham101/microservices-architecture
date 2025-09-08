@@ -5,6 +5,22 @@ spring:
   application:
     name: api-gateway
 
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.1.2:8080/realms/blog-realm
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://192.168.1.2:8080/realms/blog-realm
+        registration:
+          gateway-client:
+            client-id: api-gateway
+            client-secret: JyTulrs5s9dctI6J8s5hyBDdiYEKyzpL
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+
   cloud:
     gateway:
       routes:
@@ -46,12 +62,13 @@ eureka:
 
 
 
-#okta configuration for api gateway
+# Keycloak configuration for API Gateway
+# Replace <host>, <realm>, <client-id>, and <client-secret> with your Keycloak values.
+keycloak:
+  issuer-uri: http://<keycloak-host>:8080/realms/<realm>
+  audience: account
 
-okta:
-  oauth2:
-    issuer: https://dev-40764327.okta.com/oauth2/default
-    audience: api://default
-    client-id: 0oalq1vds6cMQZ3h25d7
-    client-secret: gQL-vgxJNwfonkSCV10Q9UpVUm8UuEVXe178r7orqI0gZzwznB8nYlJCTAO3j5PE
-    scopes: openid, profile, email, offline_access
+# Example client registration (if the gateway needs to act as an OAuth2 client):
+# spring.security.oauth2.client.registration.gateway-client.client-id: <client-id>
+# spring.security.oauth2.client.registration.gateway-client.client-secret: <client-secret>
+# spring.security.oauth2.client.provider.keycloak.issuer-uri: http://<keycloak-host>:8080/realms/<realm>

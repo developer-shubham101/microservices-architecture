@@ -91,25 +91,19 @@
         <!--    For Open API (Swagger)    -->
 
 
-        <!-- Okta Security-->
+        <!-- Security: use Spring Security and OAuth2 Resource Server for JWT validation -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.okta.spring/okta-spring-boot-parent -->
-        <dependency>
-            <groupId>com.okta.spring</groupId>
-            <artifactId>okta-spring-boot-starter</artifactId>
-            <version>3.0.6</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-oauth2-client -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-oauth2-client</artifactId>
-            <version>3.4.0</version>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
         </dependency>
-
-        <!-- End Okta Security-->
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-oauth2-client</artifactId>
+                    </dependency>
 
 
         <dependency>
@@ -135,6 +129,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <!-- RabbitMQ support for Saga events -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
         </dependency>
 
     </dependencies>

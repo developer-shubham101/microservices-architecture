@@ -1,5 +1,6 @@
 package com.example.sbbloginfo.config.interceptor;
 
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,8 +8,14 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizeRequest;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
 
@@ -23,18 +30,53 @@ public class RestTemplateInterceptor implements ClientHttpRequestInterceptor {
   @Override
   public ClientHttpResponse intercept(
       HttpRequest request, byte[] body, ClientHttpRequestExecution execution) throws IOException {
-    String token =
-        manager
-            .authorize(
+    String token = null;
+    try {
+      // 1) Try to extract incoming Authorization header from current request
+      var attrs = RequestContextHolder.getRequestAttributes();
+      if (attrs instanceof ServletRequestAttributes servletAttrs) {
+        HttpServletRequest req = servletAttrs.getRequest();
+        if (req != null) {
+          String header = req.getHeader("Authorization");
+          if (header != null && header.startsWith("Bearer ")) {
+            token = header.substring(7);
+          }
+        }
+      }
+
+      // 2) Fallback to SecurityContext (JwtAuthenticationToken)
+      if (token == null) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth instanceof JwtAuthenticationToken jwtAuth && jwtAuth.getToken() != null) {
+          token = jwtAuth.getToken().getTokenValue();
+        }
+      }
+
+      // 3) If still null, request client_credentials token
+      if (token == null) {
+        OAuth2AuthorizedClient authorizedClient =
+            manager.authorize(
                 OAuth2AuthorizeRequest.withClientRegistrationId("my-internal-client")
                     .principal("internal")
-                    .build())
-            .getAccessToken()
-            .getTokenValue();
+                    .build());
+        if (authorizedClient != null && authorizedClient.getAccessToken() != null) {
+          token = authorizedClient.getAccessToken().getTokenValue();
+        }
+      }
 
-    logger.info("Rest Template interceptor: Token :  {} ", token);
+      if (token != null) {
+        logger.debug("Rest Template interceptor: attaching Authorization Bearer token");
+        request.getHeaders().add("Authorization", "Bearer " + token);
+      } else {
+        logger.warn(
+            "Rest Template interceptor: no token available - proceeding without Authorization header");
+      }
+    } catch (Exception ex) {
+      logger.error(
+          "Rest Template interceptor: failed to obtain/forward token - proceeding without Authorization header",
+          ex);
+    }
 
-    request.getHeaders().add("Authorization", "Bearer " + token);
     return execution.execute(request, body);
   }
 }
