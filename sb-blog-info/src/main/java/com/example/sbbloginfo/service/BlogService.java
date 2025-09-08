@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RequiredArgsConstructor
 @Service
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*" )
 public class BlogService {
   private final MongoTemplate template;
   private final BlogMapper blogMapper; // @RequiredArgsConstructor will create constructor

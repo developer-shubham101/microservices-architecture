@@ -13,13 +13,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Service
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*" )
 public class BlogService {
 
   private final BlogRepository blogRepository;
