@@ -1,0 +1,2 @@
+testuser Cleartext-Password := "testpassword"
+Reply-Message := "Hello, you are authenticated!"
