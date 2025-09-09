@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +21,7 @@ public class BlogUseCase {
   private final BlogService blogService;
   private final RestTemplate restTemplate;
 
+  @Cacheable(value = "blogs", unless = "#result == null or #result.isEmpty()")
   public List<BlogResponse> getBlogs() {
     List<BlogEntity> blogEntityList = blogService.getBlogs();
 
@@ -31,6 +33,7 @@ public class BlogUseCase {
     return blogService.searchBlog(size, page, sortDir, query, sortBy);
   }
 
+  @Cacheable(value = "blogs", key = "#userId", unless = "#result == null or #result.isEmpty()")
   public List<BlogResponse> getBlogsByUser(String userId) {
     List<BlogEntity> blogEntity = blogService.getBlogsByUser(userId);
 
@@ -51,6 +54,7 @@ public class BlogUseCase {
     return blogRes;
   }
 
+  @Cacheable(value = "blogs", key = "#blogId", unless = "#result == null")
   public BlogResponse getBlogsById(String blogId) {
     BlogEntity blogEntityList = blogService.getBlogById(blogId);
 

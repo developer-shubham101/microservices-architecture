@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RequiredArgsConstructor
 @Service
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "*" )
 public class CommentService {
   private final MongoTemplate template;
   public final CommentMapper commentMapper; // @RequiredArgsConstructor will create constructor
@@ -84,12 +84,13 @@ public class CommentService {
     commentsRepository.deleteById(id);
   }
 
-  public List<CommentEntity> getCommentsByBlog(String userId) {
+  public List<CommentEntity> getCommentsByBlog(String blogId) {
 
-    return commentsRepository.findByBlogId(userId);
+    return commentsRepository.findByBlogId(blogId);
   }
 
   public List<CommentEntity> getComments() {
     return commentsRepository.findAll();
   }
 }
+

@@ -12,6 +12,14 @@ services:
     networks:
       - springboot-mongo-network
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - springboot-mongo-network
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
@@ -95,9 +103,11 @@ services:
       dockerfile: Dockerfile
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/my_first_spring_project
+      SPRING_DATA_REDIS_HOST: redis
     depends_on:
       - mongo
       - service-discovery
+      - redis
     ports:
       - "7070:7070"
     networks:
@@ -110,9 +120,11 @@ services:
       dockerfile: Dockerfile
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/my_first_spring_project
+      SPRING_DATA_REDIS_HOST: redis
     depends_on:
       - mongo
       - service-discovery
+      - redis
     ports:
       - "7071:7071"
     networks:
@@ -125,9 +137,11 @@ services:
       dockerfile: Dockerfile
     environment:
       SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/my_first_spring_project
+      SPRING_DATA_REDIS_HOST: redis
     depends_on:
       - mongo
       - service-discovery
+      - redis
     ports:
       - "7075:7075"
     networks:
